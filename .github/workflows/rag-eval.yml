@@ -24,5 +24,11 @@ jobs:
       - name: Run tests
         run: pytest -q
 
+      - name: Run W4 tests (hybrid retrieval)
+        run: pytest -q -m w4
+
       - name: Evaluate retrieval (dev, tfidf)
         run: python -m rag.evaluate --split dev --method tfidf -k 4 --min-hit 0.9
+
+      - name: Evaluate retrieval (dev, hybrid)
+        run: python -m rag.evaluate --split dev --method hybrid -k 4 --min-hit 0.9
