@@ -1,0 +1,28 @@
+name: RAG eval
+
+on:
+  push:
+  pull_request:
+
+defaults:
+  run:
+    working-directory: rag-workshop-starter
+
+jobs:
+  test-and-evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Evaluate retrieval (dev, tfidf)
+        run: python -m rag.evaluate --split dev --method tfidf -k 4 --min-hit 0.9
